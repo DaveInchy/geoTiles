@@ -3,15 +3,21 @@ require("regenerator-runtime/runtime");
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
-import "./index.css";
-
-import App from "./views/app";
+import Welcome from "./views/welcome.jsx";
+import Nav from "./components/nav.jsx";
 
 ReactDOM.createRoot(
     document.getElementById("app")
 ).render(
     <React.StrictMode>
-        <App />
+        <BrowserRouter>
+            <Nav />
+            <Routes>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/dist/" element={<Welcome />} />
+            </Routes>
+        </BrowserRouter>
     </React.StrictMode>
 );

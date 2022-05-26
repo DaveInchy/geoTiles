@@ -1,8 +1,8 @@
 import React from "react";
 
-import "../index.css";
+import "../styles/welcome.css";
 
-export default class App extends React.Component {
+export default class Welcome extends React.Component {
     render() {
         return (
             <div className={"flex w-full h-screen justify-center items-center bg-gray-900"}>

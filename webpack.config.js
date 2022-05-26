@@ -8,28 +8,72 @@ const isProduction = process.env.NODE_ENV === 'production';
 const stylesHandler = 'style-loader';
 
 const config  = {
-  entry: './src/index.js',
+  devServer: {
+    server: "https",
+    liveReload: true,
+    magicHtml: true,
+    open: true,
+    port: 3000,
+    host: '0.0.0.0',
+    allowedHosts: [
+      '0.0.0.0',
+      '*.local',
+      '*.localhost',
+      'localhost',
+    ],
+    static: {
+      directory: path.join(__dirname, 'dist'),
+      publicPath: '/',
+    },
+    compress: true,
+  },
+  entry: {
+    main: './src/index.js',
+  },
   output: {
     path: path.resolve('./dist'),
-    filename: 'main.js',
+    filename: 'bin/[name].js',
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+      filename: 'index.html',
     }),
   ],
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              typeCheck: false,
+            },
+          },
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env', '@babel/typescript',
+                '@babel/preset-react'
+              ],
+            },
+          },
+        ],
+      },
+      {
         test: /\.(js|jsx)$/i,
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
-            presets: [
-                '@babel/preset-env',
-                '@babel/preset-react',
-            ],
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-react',
+          ],
         },
       },
       {
